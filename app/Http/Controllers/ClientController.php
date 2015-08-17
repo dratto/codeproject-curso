@@ -12,7 +12,8 @@ class ClientController extends Controller
 {
     private $client;
     
-    public function __construct(Client $client) {
+    public function __construct(Client $client)
+    {
         $this->client = $client;
     }
     
@@ -64,6 +65,7 @@ class ClientController extends Controller
     public function update(Request $request, $id)
     {
         $this->client->find($id)->update($request->all());
+        return $this->client->find($id);
     }
 
     /**
