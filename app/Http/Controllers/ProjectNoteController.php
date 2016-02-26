@@ -2,25 +2,25 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ClientRepository;
-use CodeProject\Services\ClientService;
+use CodeProject\Repositories\ProjectNoteRepository;
+use CodeProject\Services\ProjectNoteService;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class ProjectNoteController extends Controller
 {
-    private $client;
+    private $repository;
     private $service;
     
-    public function __construct(ClientRepository $client, ClientService $service)
+    public function __construct(ProjectNoteRepository $repository, ProjectNoteService $service)
     {
-        $this->client = $client;
+        $this->repository = $repository;
         $this->service = $service;
     }
     
-    public function index()
+    public function index($id)
     {
-        return $this->client->all();
-    }    
+        return $this->repository->findWhere(['project_id' => $id]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -37,11 +37,12 @@ class ClientController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param int $noteId
      * @return Response
      */
-    public function show($id)
+    public function show($id, $noteId)
     {
-        return $this->client->find($id);
+        return $this->repository->findWhere(['project_id' => $id, 'id' => $noteId]);
     }
 
     /**
@@ -75,6 +76,6 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        $this->client->find($id)->delete();
+        $this->repository->find($id)->delete();
     }
 }
